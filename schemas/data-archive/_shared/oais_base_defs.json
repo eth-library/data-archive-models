@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eth-library.github.io/schemas/data-archive/_shared/oais_base_defs.json",
+  "title": "OAIS Base Definitions",
+  "description": "Common definitions used across OAIS schemas",
+  "type": "object",
+  "definitions": {
+    "identifier": {
+      "type": "string",
+      "format": "uuid",
+      "description": "A unique identifier in UUID format"
+    },
+    "dateTime": {
+      "type": "string",
+      "format": "date-time",
+      "description": "A date and time in ISO 8601 format"
+    },
+    "checksum": {
+      "type": "object",
+      "properties": {
+        "algorithm": {
+          "type": "string",
+          "enum": ["SHA512", "MD5", "CRC32"],
+          "description": "The algorithm used to generate the checksum"
+        },
+        "value": {
+          "type": "string",
+          "pattern": "^[0-9a-fA-F]+$",
+          "description": "The hexadecimal value of the checksum"
+        }
+      },
+      "required": ["algorithm", "value"],
+      "additionalProperties": false
+    }
+  }
+}
