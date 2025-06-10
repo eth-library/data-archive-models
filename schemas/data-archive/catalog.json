@@ -1,0 +1,65 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Data Archive Model Catalog",
+  "description": "Catalog of all schemas in the Data Archive Model",
+  "type": "object",
+  "properties": {
+    "schemas": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "version": {
+            "type": "string"
+          },
+          "url": {
+            "type": "string",
+            "format": "uri"
+          }
+        },
+        "required": ["name", "version", "url"]
+      }
+    }
+  },
+  "required": ["schemas"],
+  "schemas": [
+    {
+      "name": "Producer",
+      "version": "0.1.0",
+      "url": "https://eth-library.github.io/schemas/data-archive/v0.1/Producer.json"
+    },
+    {
+      "name": "Deposit",
+      "version": "0.1.0",
+      "url": "https://eth-library.github.io/schemas/data-archive/v0.1/Deposit.json"
+    },
+    {
+      "name": "SIP",
+      "version": "0.1.0",
+      "url": "https://eth-library.github.io/schemas/data-archive/v0.1/SIP.json"
+    },
+    {
+      "name": "IntellectualEntity",
+      "version": "0.1.0",
+      "url": "https://eth-library.github.io/schemas/data-archive/v0.1/IntellectualEntity.json"
+    },
+    {
+      "name": "Representation",
+      "version": "0.1.0",
+      "url": "https://eth-library.github.io/schemas/data-archive/v0.1/Representation.json"
+    },
+    {
+      "name": "File",
+      "version": "0.1.0",
+      "url": "https://eth-library.github.io/schemas/data-archive/v0.1/File.json"
+    },
+    {
+      "name": "Fixity",
+      "version": "0.1.0",
+      "url": "https://eth-library.github.io/schemas/data-archive/v0.1/Fixity.json"
+    }
+  ]
+}
