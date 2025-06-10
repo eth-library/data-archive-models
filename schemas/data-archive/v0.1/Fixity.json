@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "schemaVersion": "0.1.0",
+  "$id": "https://eth-library.github.io/schemas/data-archive/v0.1/Fixity.json",
+  "title": "Fixity",
+  "description": "An OAIS Fixity entity representing integrity information for a digital file",
+  "type": "object",
+  "properties": {
+    "identifier": {
+      "$ref": "../_shared/oais_base_defs.json#/definitions/identifier"
+    },
+    "dateCreated": {
+      "$ref": "../_shared/oais_base_defs.json#/definitions/dateTime"
+    },
+    "checksums": {
+      "type": "array",
+      "items": {
+        "$ref": "../_shared/oais_base_defs.json#/definitions/checksum"
+      },
+      "description": "Checksums for the file"
+    }
+  },
+  "required": ["identifier", "dateCreated", "checksums"],
+  "additionalProperties": true
+}

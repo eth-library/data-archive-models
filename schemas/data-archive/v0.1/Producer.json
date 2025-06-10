@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "schemaVersion": "0.1.0",
+  "$id": "https://eth-library.github.io/schemas/data-archive/data-archive/v0.1/Producer.json",
+  "title": "Producer",
+  "description": "An OAIS Producer entity that creates and submits content",
+  "type": "object",
+  "properties": {
+    "identifier": {
+      "$ref": "../_shared/oais_base_defs.json#/definitions/identifier"
+    },
+    "dateCreated": {
+      "$ref": "../_shared/oais_base_defs.json#/definitions/dateTime"
+    },
+    "name": {
+      "type": "string",
+      "description": "Name of the producer"
+    },
+    "contact": {
+      "type": "string",
+      "description": "Contact information for the producer"
+    }
+  },
+  "required": ["identifier", "dateCreated", "name"],
+  "additionalProperties": true
+}

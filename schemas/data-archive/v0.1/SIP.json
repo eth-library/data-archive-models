@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "schemaVersion": "0.1.0",
+  "$id": "https://eth-library.github.io/schemas/data-archive/data-archive/v0.1/SIP.json",
+  "title": "SubmissionInformationPackage",
+  "description": "An OAIS Submission Information Package (SIP) entity",
+  "type": "object",
+  "properties": {
+    "identifier": {
+      "$ref": "../_shared/oais_base_defs.json#/definitions/identifier"
+    },
+    "name": {
+      "type": "string",
+      "description": "Title of the SIP"
+    },
+    "producer": {
+      "$ref": "https://eth-library.github.io/schemas/data-archive/data-archive/v0.1/Producer.json"
+    },
+    "intellectualEntities": {
+      "type": "array",
+      "items": {
+        "$ref": "https://eth-library.github.io/schemas/data-archive/data-archive/v0.1/IntellectualEntity.json"
+      },
+      "minItems": 1,
+      "description": "Intellectual Entities included in this SIP"
+    },
+    "state": {
+      "type": "string",
+      "enum": ["initialized", "processing", "built", "deposited", "ingested", "completed"],
+      "description": "Current state of the SIP in the workflow"
+    }
+  },
+  "required": ["identifier", "name", "producer", "intellectualEntities"],
+  "additionalProperties": true
+}

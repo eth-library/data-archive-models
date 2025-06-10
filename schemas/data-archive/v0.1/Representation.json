@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "schemaVersion": "0.1.0",
+  "$id": "https://eth-library.github.io/schemas/data-archive/v0.1/Representation.json",
+  "title": "Representation",
+  "description": "An OAIS Representation entity representing a specific form of an Intellectual Entity",
+  "type": "object",
+  "properties": {
+    "identifier": {
+      "$ref": "../_shared/oais_base_defs.json#/definitions/identifier"
+    },
+    "name": {
+      "type": "string",
+      "description": "Type of the representation (e.g., preservation, access)"
+    },
+    "files": {
+      "type": "array",
+      "items": {
+        "$ref": "https://eth-library.github.io/schemas/data-archive/v0.1/File.json"
+      },
+      "minItems": 1,
+      "description": "Files that make up this representation"
+    }
+  },
+  "required": ["identifier", "name", "files"],
+  "additionalProperties": true
+}

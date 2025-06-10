@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "schemaVersion": "0.1.0",
+  "$id": "https://eth-library.github.io/schemas/data-archive/v0.1/IntellectualEntity.json",
+  "title": "IntellectualEntity",
+  "description": "An OAIS Intellectual Entity representing a conceptual object",
+  "type": "object",
+  "properties": {
+    "identifier": {
+      "$ref": "../_shared/oais_base_defs.json#/definitions/identifier"
+    },
+    "representations": {
+      "type": "array",
+      "items": {
+        "$ref": "https://eth-library.github.io/schemas/data-archive/v0.1/Representation.json"
+      },
+      "minItems": 1,
+      "description": "Representations of this Intellectual Entity"
+    }
+  },
+  "required": ["identifier", "representations"],
+  "additionalProperties": true
+}
