@@ -7,15 +7,15 @@
   "type": "object",
   "properties": {
     "identifier": {
-      "$ref": "../_shared/oais_base_defs.json#/definitions/identifier"
+      "$ref": "./_shared/oais_base_defs.json#/definitions/identifier"
     },
     "dateCreated": {
-      "$ref": "../_shared/oais_base_defs.json#/definitions/dateTime"
+      "$ref": "./_shared/oais_base_defs.json#/definitions/dateTime"
     },
     "checksums": {
       "type": "array",
       "items": {
-        "$ref": "../_shared/oais_base_defs.json#/definitions/checksum"
+        "$ref": "./_shared/oais_base_defs.json#/definitions/checksum"
       },
       "description": "Checksums for the file"
     }

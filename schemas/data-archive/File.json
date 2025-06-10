@@ -7,10 +7,10 @@
   "type": "object",
   "properties": {
     "identifier": {
-      "$ref": "../_shared/oais_base_defs.json#/definitions/identifier"
+      "$ref": "./_shared/oais_base_defs.json#/definitions/identifier"
     },
     "dateCreated": {
-      "$ref": "../_shared/oais_base_defs.json#/definitions/dateTime"
+      "$ref": "./_shared/oais_base_defs.json#/definitions/dateTime"
     },
     "name": {
       "type": "string",

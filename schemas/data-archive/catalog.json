@@ -29,37 +29,37 @@
     {
       "name": "Producer",
       "version": "0.1.0",
-      "url": "https://eth-library.github.io/schemas/data-archive/v0.1/Producer.json"
+      "url": "https://eth-library.github.io/schemas/data-archive/Producer.json"
     },
     {
       "name": "Deposit",
       "version": "0.1.0",
-      "url": "https://eth-library.github.io/schemas/data-archive/v0.1/Deposit.json"
+      "url": "https://eth-library.github.io/schemas/data-archive/Deposit.json"
     },
     {
       "name": "SIP",
       "version": "0.1.0",
-      "url": "https://eth-library.github.io/schemas/data-archive/v0.1/SIP.json"
+      "url": "https://eth-library.github.io/schemas/data-archive/SIP.json"
     },
     {
       "name": "IntellectualEntity",
       "version": "0.1.0",
-      "url": "https://eth-library.github.io/schemas/data-archive/v0.1/IntellectualEntity.json"
+      "url": "https://eth-library.github.io/schemas/data-archive/IntellectualEntity.json"
     },
     {
       "name": "Representation",
       "version": "0.1.0",
-      "url": "https://eth-library.github.io/schemas/data-archive/v0.1/Representation.json"
+      "url": "https://eth-library.github.io/schemas/data-archive/Representation.json"
     },
     {
       "name": "File",
       "version": "0.1.0",
-      "url": "https://eth-library.github.io/schemas/data-archive/v0.1/File.json"
+      "url": "https://eth-library.github.io/schemas/data-archive/File.json"
     },
     {
       "name": "Fixity",
       "version": "0.1.0",
-      "url": "https://eth-library.github.io/schemas/data-archive/v0.1/Fixity.json"
+      "url": "https://eth-library.github.io/schemas/data-archive/Fixity.json"
     }
   ]
 }

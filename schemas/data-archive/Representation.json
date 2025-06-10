@@ -7,7 +7,7 @@
   "type": "object",
   "properties": {
     "identifier": {
-      "$ref": "../_shared/oais_base_defs.json#/definitions/identifier"
+      "$ref": "./_shared/oais_base_defs.json#/definitions/identifier"
     },
     "name": {
       "type": "string",
