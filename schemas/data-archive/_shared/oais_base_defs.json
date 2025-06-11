@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://eth-library.github.io/schemas/data-archive/_shared/oais_base_defs.json",
+  "$id": "./_shared/oais_base_defs.json",
   "title": "OAIS Base Definitions",
   "description": "Common definitions used across OAIS schemas",
   "type": "object",

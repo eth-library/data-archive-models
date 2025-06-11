@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "schemaVersion": "0.1.0",
-  "$id": "https://eth-library.github.io/schemas/data-archive/v0.1/Deposit.json",
+  "$id": "Deposit.json",
   "title": "Deposit",
   "description": "An OAIS Deposit entity representing a submission from a Producer",
   "type": "object",
@@ -13,7 +13,7 @@
       "$ref": "./_shared/oais_base_defs.json#/definitions/dateTime"
     },
     "producer": {
-      "$ref": "https://eth-library.github.io/schemas/data-archive/v0.1/Producer.json"
+      "$ref": "./Producer.json"
     },
     "name": {
       "type": "string",
@@ -27,7 +27,7 @@
     "sips": {
       "type": "array",
       "items": {
-        "$ref": "https://eth-library.github.io/schemas/data-archive/v0.1/SIP.json"
+        "$ref": "SIP.json"
       },
       "minItems": 1,
       "description": "Submission Information Packages included in this deposit"

@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "schemaVersion": "0.1.0",
-  "$id": "https://eth-library.github.io/schemas/data-archive/v0.1/Representation.json",
+  "$id": "Representation.json",
   "title": "Representation",
   "description": "An OAIS Representation entity representing a specific form of an Intellectual Entity",
   "type": "object",
@@ -16,7 +16,7 @@
     "files": {
       "type": "array",
       "items": {
-        "$ref": "https://eth-library.github.io/schemas/data-archive/v0.1/File.json"
+        "$ref": "./File.json"
       },
       "minItems": 1,
       "description": "Files that make up this representation"

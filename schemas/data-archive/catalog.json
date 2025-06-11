@@ -28,38 +28,31 @@
   "schemas": [
     {
       "name": "Producer",
-      "version": "0.1.0",
-      "url": "https://eth-library.github.io/schemas/data-archive/Producer.json"
+      "url": "./Producer.json"
     },
     {
       "name": "Deposit",
-      "version": "0.1.0",
-      "url": "https://eth-library.github.io/schemas/data-archive/Deposit.json"
+      "url": "./Deposit.json"
     },
     {
       "name": "SIP",
-      "version": "0.1.0",
-      "url": "https://eth-library.github.io/schemas/data-archive/SIP.json"
+      "url": "./SIP.json"
     },
     {
       "name": "IntellectualEntity",
-      "version": "0.1.0",
-      "url": "https://eth-library.github.io/schemas/data-archive/IntellectualEntity.json"
+      "url": "./IntellectualEntity.json"
     },
     {
       "name": "Representation",
-      "version": "0.1.0",
-      "url": "https://eth-library.github.io/schemas/data-archive/Representation.json"
+      "url": "./Representation.json"
     },
     {
       "name": "File",
-      "version": "0.1.0",
-      "url": "https://eth-library.github.io/schemas/data-archive/File.json"
+      "url": "./File.json"
     },
     {
       "name": "Fixity",
-      "version": "0.1.0",
-      "url": "https://eth-library.github.io/schemas/data-archive/Fixity.json"
+      "url": "./Fixity.json"
     }
   ]
 }
