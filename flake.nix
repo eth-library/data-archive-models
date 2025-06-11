@@ -51,7 +51,6 @@
             jdk
             maven
             python312
-            python312Packages.jsonschema
           ];
 
           # Shell hook runs when the environment is entered
