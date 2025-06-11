@@ -23,7 +23,6 @@ All schemas are currently at version 0.1.0, indicating this is an early-stage pr
 - Java 21
 - Maven
 - Python 3.12
-- jsonschema Python package
 
 ### Quick Start
 
@@ -40,7 +39,6 @@ nix develop
 # Alternatively, set up manually
 python -m venv .venv
 source .venv/bin/activate
-pip install jsonschema
 ```
 
 ### Build Options
