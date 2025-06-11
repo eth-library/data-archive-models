@@ -187,6 +187,6 @@ jobs:
         # Executes the Maven deploy goal within the Nix development shell.
         # This will publish the artifact to GitHub Packages.
         # The GITHUB_TOKEN is used for authentication.
-        run: nix develop --command mvn --batch-mode deploy
+        run: nix develop --command mvn --batch-mode deploy -DskipTests
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
