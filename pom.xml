@@ -6,7 +6,7 @@
 
     <groupId>ch.ethz.library</groupId>
     <artifactId>data-archive-models</artifactId>
-    <version>0.1.0</version>
+    <version>0.1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <properties>
