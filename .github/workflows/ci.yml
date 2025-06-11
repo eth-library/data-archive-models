@@ -98,16 +98,7 @@ jobs:
         # Executes the Maven package phase within the Nix development shell.
         # This will trigger 'jsonschema2pojo' to generate your Java classes.
         # Tests are skipped as they were already run in the 'Run Unit Tests' job.
-        run: nix develop --command mvn package -DskipTests
-
-      - name: Upload Generated Java Models as Artifact
-        # This step uploads the generated Java source code as a workflow artifact.
-        # It will be named 'data-archive-models-java-source' and can be downloaded
-        # directly from the workflow run details page in GitHub.
-        uses: actions/upload-artifact@v4
-        with:
-          name: data-archive-models-java-source
-          path: target/
+        run: nix develop --command mvn prepare-package -DskipTests
 
   # Job 4: Publishes the Java .jar artifacts to GitHub Packages
   publish-to-github-packages:
