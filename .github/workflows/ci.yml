@@ -113,6 +113,52 @@ jobs:
           extra_nix_config: |
             experimental-features = nix-command flakes
 
+      - name: Configure Maven for GitHub Packages
+        # This step dynamically creates a Maven settings.xml file with GitHub Packages authentication.
+        # It's necessary because 'nix develop' doesn't automatically configure Maven like 'setup-java'.
+        #
+        # Security Note:
+        # - The settings.xml file is created temporarily in the runner's ephemeral environment.
+        # - It is automatically destroyed after the job completes, preventing persistent storage of credentials.
+        # - The GITHUB_TOKEN (accessed via secrets.GITHUB_TOKEN) is automatically masked in logs by GitHub.
+        run: |
+          # Create the .m2 directory if it doesn't exist
+          mkdir -p ~/.m2
+
+          # Write the settings.xml content using a "here-doc" for clean multi-line output
+          cat > ~/.m2/settings.xml <<EOF
+          <settings>
+            <servers>
+              <server>
+                <id>github</id> <!-- This ID must match the <id> in your pom.xml's <distributionManagement> -->
+                <username>${{ github.actor }}</username> <!-- Uses the GitHub user/bot that triggered the workflow -->
+                <password>${{ secrets.GITHUB_TOKEN }}</password> <!-- Uses the auto-generated, short-lived GITHUB_TOKEN -->
+              </server>
+            </servers>
+            <profiles>
+              <profile>
+                <id>github</id>
+                <repositories>
+                  <repository>
+                    <id>github</id>
+                    <url>https://maven.pkg.github.com/eth-library/data-archive-models</url>
+                    <snapshots>
+                      <enabled>true</enabled>
+                    </snapshots>
+                  </repository>
+                </repositories>
+              </profile>
+            </profiles>
+            <activeProfiles>
+              <activeProfile>github</activeProfile>
+            </activeProfiles>
+          </settings>
+          EOF
+        env:
+          # Explicitly pass GITHUB_TOKEN to the environment, though it's primarily
+          # consumed by Maven via the settings.xml configuration.
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Deploy to GitHub Packages
         # Executes the Maven deploy goal within the Nix development shell.
         # This will publish the artifact to GitHub Packages.
