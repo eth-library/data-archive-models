@@ -51,6 +51,8 @@
             jdk
             maven
             python312
+            python312Packages.hatchling
+            uv
           ];
 
           # Shell hook runs when the environment is entered
@@ -68,6 +70,14 @@
             ${log.info "Activating virtual environment..."}
             source ${venvDir}/bin/activate
 
+            if [ ! -f uv.lock ]; then
+              ${log.info "Generating lock file..."}
+              uv lock
+            fi
+
+            ${log.info "Installing Python dependencies with uv..."}
+            uv sync
+
             # Print helpful information
             ${log.success "Development environment activated!"}
             echo "Java version: $(java --version | head -n 1)"
@@ -75,6 +85,7 @@
             echo "Maven version: $(mvn --version | head -n 1)"
             echo "Python version: $(python --version)"
             echo "Python interpreter path: $(python -c 'import sys; print(sys.executable)')"
+            echo "uv version: $(uv --version)"
             echo ""
           '';
         };
