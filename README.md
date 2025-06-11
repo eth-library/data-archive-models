@@ -43,6 +43,25 @@ source .venv/bin/activate
 pip install jsonschema
 ```
 
+### Build Options
+
+The project provides several Maven build commands:
+
+1. **Validate JSON schemas only**:
+   ```bash
+   mvn -Dtest=JsonSchemaValidationTest test
+   ```
+
+2. **Build without validation** (skip tests):
+   ```bash
+   mvn package -DskipTests
+   ```
+
+3. **Standard build** (validate schemas then generate classes):
+   ```bash
+   mvn package
+   ```
+
 ## Future Goals
 
 - Publishing packages from JSON schemas to Maven (GitHub Package Registry)
