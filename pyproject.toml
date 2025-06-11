@@ -1,0 +1,32 @@
+[build-system]
+requires = ["hatchling", "hatch-vcs"]
+build-backend = "hatchling.build"
+
+[project]
+name = "data-archive-models"
+dynamic = ["version"]
+description = "ETH Library Data Archive Models - Python Pydantic classes"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = ["pydantic>=2.0.0"]
+
+[project.urls]
+Repository = "https://github.com/eth-library/data-archive-models"
+
+[tool.hatch.build.targets.wheel]
+packages = ["python-generated"]
+
+[tool.uv]
+dev-dependencies = [
+    "datamodel-code-generator[http]>=0.25.0",
+    "pytest>=7.0.0",
+    "pytest-cov>=4.0.0",
+    "jsonschema>=4.0.0"
+]
+
+[tool.coverage.run]
+source = ["python-generated"]
+omit = ["tests/*"]
+
+[tool.hatch.version]
+source = "vcs"
