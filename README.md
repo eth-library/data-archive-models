@@ -62,6 +62,14 @@ The project provides several Maven build commands:
    mvn package
    ```
 
+## Continuous Integration
+
+The project uses GitHub Actions for CI. The workflow automatically:
+- Sets up the Nix environment shell
+- Runs schema validation tests
+- Generates Java models from JSON schemas
+- Makes generated code available as artifacts
+
 ## Future Goals
 
 - Publishing packages from JSON schemas to Maven (GitHub Package Registry)
