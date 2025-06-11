@@ -1,0 +1,96 @@
+name: Data Archive Models CI
+
+# Triggers the workflow on pushes to the 'main' branch, pull requests targeting 'main',
+# and also allows manual triggering via the GitHub Actions UI.
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  # Job 1: Sets up the Nix build environment and validates your project's flake.nix configuration.
+  # This ensures the foundational build tools (like Java, Maven) are available via Nix.
+  setup-build-environment:
+    name: Setup Build Environment
+    runs-on: ubuntu-latest # Using Ubuntu for the runner environment
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4 # Uses the latest stable action for checking out your repository.
+
+      - name: Install Nix with Flakes Support
+        # This action installs Nix on the runner and enables experimental flakes support.
+        # It's essential for your 'nix develop' commands to function.
+        uses: cachix/install-nix-action@v31 # Use a specific version for stability.
+        with:
+          extra_nix_config: |
+            experimental-features = nix-command flakes
+
+      - name: Verify Nix Development Shell
+        # This step attempts to enter your Nix development shell.
+        # It's a crucial check to ensure your flake.nix or shell.nix can successfully
+        # load all defined dependencies (like Java, Maven, etc.).
+        run: nix develop --command true
+
+  ---
+
+  # Job 2: Runs the dedicated unit tests for schema validation.
+  # This job executes only after the Nix environment has been successfully set up.
+  run-unit-tests:
+    name: Run Unit Tests
+    runs-on: ubuntu-latest
+    needs: setup-build-environment # Ensures this job only starts after the environment setup is complete.
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Install Nix with Flakes Support (for this job)
+        # Each job in GitHub Actions runs in an isolated environment.
+        # Therefore, Nix needs to be installed again for this job's context.
+        uses: cachix/install-nix-action@v31
+        with:
+          extra_nix_config: |
+            experimental-features = nix-command flakes
+
+      - name: Execute Specific Schema Validation Tests
+        # Runs the Maven test command within the Nix development shell.
+        # This ensures that tests related to 'JsonSchemaValidationTest' are executed
+        # using the Java and Maven versions specified in your Nix configuration.
+        run: nix develop --command mvn -Dtest=JsonSchemaValidationTest test
+
+  ---
+
+  # Job 3: Generates Java models from the JSON schemas.
+  # This job proceeds only if the unit tests have passed successfully.
+  generate-java-models:
+    name: Generate Java Models
+    runs-on: ubuntu-latest
+    needs: run-unit-tests # Ensures this job only starts after all tests have passed.
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Install Nix with Flakes Support (for this job)
+        # Nix needs to be installed for this independent job as well to ensure the environment is ready.
+        uses: cachix/install-nix-action@v31
+        with:
+          extra_nix_config: |
+            experimental-features = nix-command flakes
+
+      - name: Generate Java Classes from JSON Schemas
+        # Executes the Maven package phase within the Nix development shell.
+        # This will trigger 'jsonschema2pojo' to generate your Java classes.
+        # Tests are skipped as they were already run in the 'Run Unit Tests' job.
+        run: nix develop --command mvn package -DskipTests
+
+      - name: Upload Generated Java Models as Artifact
+        # This step uploads the generated Java source code as a workflow artifact.
+        # It will be named 'data-archive-models-java-source' and can be downloaded
+        # directly from the workflow run details page in GitHub.
+        uses: actions/upload-artifact@v4
+        with:
+          name: data-archive-models-java-source
+          path: target/generated-sources/jsonschema2pojo/
