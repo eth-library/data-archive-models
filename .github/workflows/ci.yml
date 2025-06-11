@@ -31,27 +31,11 @@ jobs:
           extra_nix_config: |
             experimental-features = nix-command flakes
 
-      - name: Restore Nix Cache
-        uses: actions/cache@v3
-        id: nix-cache
-        with:
-          path: |
-            ~/.cache/nix
-            flake.lock
-          key: ${{ runner.os }}-nix-${{ hashFiles('flake.lock', 'flake.nix') }}
-          restore-keys: |
-            ${{ runner.os }}-nix-
-
       - name: Verify Nix Development Shell
         # This step attempts to enter your Nix development shell.
         # It's a crucial check to ensure your flake.nix or shell.nix can successfully
         # load all defined dependencies (like Java, Maven, etc.).
         run: nix develop --command true
-
-      - name: Save Nix Cache
-        # Only run this step if the cache was not restored or if the flake.lock has changed
-        if: steps.nix-cache.outputs.cache-hit != 'true'
-        run: echo "Nix cache updated and will be saved automatically"
 
   # Job 2: Runs the dedicated unit tests for schema validation.
   # This job executes only after the Nix environment has been successfully set up.
@@ -70,16 +54,6 @@ jobs:
         with:
           extra_nix_config: |
             experimental-features = nix-command flakes
-
-      - name: Restore Nix Cache
-        uses: actions/cache@v3
-        with:
-          path: |
-            ~/.cache/nix
-            flake.lock
-          key: ${{ runner.os }}-nix-${{ hashFiles('flake.lock', 'flake.nix') }}
-          restore-keys: |
-            ${{ runner.os }}-nix-
 
       - name: Execute Specific Schema Validation Tests
         # Runs the Maven test command within the Nix development shell.
@@ -103,16 +77,6 @@ jobs:
         with:
           extra_nix_config: |
             experimental-features = nix-command flakes
-
-      - name: Restore Nix Cache
-        uses: actions/cache@v3
-        with:
-          path: |
-            ~/.cache/nix
-            flake.lock
-          key: ${{ runner.os }}-nix-${{ hashFiles('flake.lock', 'flake.nix') }}
-          restore-keys: |
-            ${{ runner.os }}-nix-
 
       - name: Generate Java Classes from JSON Schemas
         # Executes the Maven package phase within the Nix development shell.
