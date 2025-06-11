@@ -16,6 +16,6 @@
       "description": "Checksums for the file"
     }
   },
-  "required": ["identifier", "dateCreated", "checksums"],
+  "required": ["identifier", "checksums"],
   "additionalProperties": true
 }
