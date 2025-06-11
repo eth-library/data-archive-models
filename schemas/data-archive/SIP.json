@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "schemaVersion": "0.1.0",
-  "$id": "/SIP.json",
+  "$id": "SIP.json",
   "title": "SubmissionInformationPackage",
   "description": "An OAIS Submission Information Package (SIP) entity",
   "type": "object",
