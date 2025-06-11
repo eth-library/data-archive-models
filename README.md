@@ -30,7 +30,7 @@ The project uses Nix for reproducible development environments:
 
 ```bash
 # Clone the repository
-git clone <repository-url>
+git clone https://github.com/eth-library/data-archive-models.git
 cd data-archive-models
 
 # If you have Nix with flakes enabled
