@@ -1,7 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "schemaVersion": "0.1.0",
-  "$id": "Deposit.json",
   "title": "Deposit",
   "description": "An OAIS Deposit entity representing a submission from a Producer",
   "type": "object",
@@ -27,7 +26,7 @@
     "sips": {
       "type": "array",
       "items": {
-        "$ref": "SIP.json"
+        "$ref": "./SIP.json"
       },
       "minItems": 1,
       "description": "Submission Information Packages included in this deposit"

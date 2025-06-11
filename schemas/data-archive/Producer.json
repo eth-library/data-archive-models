@@ -1,7 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "schemaVersion": "0.1.0",
-  "$id": "Producer.json",
   "title": "Producer",
   "description": "An OAIS Producer entity that creates and submits content",
   "type": "object",
