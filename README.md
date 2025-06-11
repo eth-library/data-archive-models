@@ -50,9 +50,9 @@ The project provides several Maven build commands:
    mvn -Dtest=JsonSchemaValidationTest test
    ```
 
-2. **Build without validation** (skip tests):
+2. **Generate Java classes without validation** (skip tests):
    ```bash
-   mvn package -DskipTests
+   mvn prepare-package -DskipTests
    ```
 
 3. **Standard build** (validate schemas then generate classes):
@@ -64,11 +64,11 @@ The project provides several Maven build commands:
 
 The project uses GitHub Actions for CI. The workflow automatically:
 - Sets up the Nix environment shell
+- Implements Maven dependency caching for all jobs
 - Runs schema validation tests
-- Generates Java models from JSON schemas
-- Makes generated code available as artifacts
+- Generates Java classes from JSON schemas
+- Publishes the artifact to GitHub Packages
 
 ## Future Goals
 
-- Publishing packages from JSON schemas to Maven (GitHub Package Registry)
 - Publishing packages from JSON schemas to PyPI

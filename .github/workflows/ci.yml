@@ -6,6 +6,8 @@ on:
   push:
     branches:
       - main
+    paths-ignore:
+      - 'README.md'        # Ignores README.md in the root directory
   pull_request:
     branches:
       - main
