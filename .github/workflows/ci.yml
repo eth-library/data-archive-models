@@ -35,8 +35,6 @@ jobs:
         # load all defined dependencies (like Java, Maven, etc.).
         run: nix develop --command true
 
-  ---
-
   # Job 2: Runs the dedicated unit tests for schema validation.
   # This job executes only after the Nix environment has been successfully set up.
   run-unit-tests:
@@ -60,8 +58,6 @@ jobs:
         # This ensures that tests related to 'JsonSchemaValidationTest' are executed
         # using the Java and Maven versions specified in your Nix configuration.
         run: nix develop --command mvn -Dtest=JsonSchemaValidationTest test
-
-  ---
 
   # Job 3: Generates Java models from the JSON schemas.
   # This job proceeds only if the unit tests have passed successfully.
