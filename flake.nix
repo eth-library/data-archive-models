@@ -71,6 +71,7 @@
             # Print helpful information
             ${log.success "Development environment activated!"}
             echo "Java version: $(java --version | head -n 1)"
+            echo "Java home path: $(java -XshowSettings:properties -version 2>&1 > /dev/null | grep java.home | awk '{print $3}')"
             echo "Maven version: $(mvn --version | head -n 1)"
             echo "Python version: $(python --version)"
             echo "Python interpreter path: $(python -c 'import sys; print(sys.executable)')"
