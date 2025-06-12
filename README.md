@@ -51,9 +51,21 @@ If you'd like to activate the environment manually without direnv:
 nix develop
 ```
 
-# Alternatively, set up manually
-python -m venv .venv
-source .venv/bin/activate
+## Development Workflow
+
+### Python Model Generation
+
+Python models are automatically generated from JSON schemas:
+
+```bash
+# Generate Python models from JSON schemas
+datamodel-codegen \
+  --input-file-type jsonschema \
+  --input schemas/data-archive/ \
+  --output src/data_archive/ \
+  --output-model-type pydantic_v2.BaseModel \
+  --field-constraints \
+  --use-schema-description
 ```
 
 ### Build Options
