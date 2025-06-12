@@ -17,7 +17,7 @@ Repository = "https://github.com/eth-library/data-archive-models"
 sources = ["src"]
 
 [tool.hatch.build.targets.wheel]
-packages = ["src/data_archive"]
+packages = ["data_archive"]
 
 [tool.hatch.version]
 source = "env"
