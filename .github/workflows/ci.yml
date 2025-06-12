@@ -77,6 +77,8 @@ jobs:
     name: Generate Java Models
     runs-on: ubuntu-latest
     needs: run-unit-tests # Ensures this job only starts after all tests have passed.
+    permissions:
+      contents: read
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
