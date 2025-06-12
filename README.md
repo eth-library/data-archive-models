@@ -23,18 +23,33 @@ All schemas are currently at version 0.1.0, indicating this is an early-stage pr
 - Java 21
 - Maven
 - Python 3.12
+- Nix with flakes enabled (recommended)
+- direnv for environment management (recommended)
 
-### Quick Start
+### Recommended Nix + Direnv Setup
 
-The project uses Nix for reproducible development environments:
+We recommend using the fully automatic setup method using Nix Flakes and Direnv:
 
+#### Prerequisites
+- Nix package manager with flakes enabled
+- direnv for environment management
+
+#### Steps
+1. Clone the repository
+2. Allow direnv in the project directory:
+   ```bash
+   direnv allow
+   ```
+
+This will automatically:
+- Create a Python 3.12 virtual environment in .venv
+- Install all dependencies using UV package manager
+- Set up the development environment
+
+If you'd like to activate the environment manually without direnv:
 ```bash
-# Clone the repository
-git clone https://github.com/eth-library/data-archive-models.git
-cd data-archive-models
-
-# If you have Nix with flakes enabled
 nix develop
+```
 
 # Alternatively, set up manually
 python -m venv .venv
