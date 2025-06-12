@@ -252,7 +252,7 @@ jobs:
 
             # Build the package (version is automatically read from HATCH_VERSION env var)
             echo "Building package with version ${{ env.VERSION }}..."
-            uv build --no-sources
+            uv build --no-sources --index-strategy unsafe-best-match
 
             # Publish to TestPyPI
             echo "Publishing to TestPyPI..."
