@@ -14,14 +14,14 @@ dependencies = ["pydantic>=2.0.0"]
 Repository = "https://github.com/eth-library/data-archive-models"
 
 [tool.hatch.build]
-# Explicitly include the 'python-generated' directory in the package artifacts.
+# Explicitly include the 'src' directory in the package artifacts.
 # This ensures it's packaged even if it's ignored by Git.
 include = [
-    "python-generated"
+    "src"
 ]
 
 [tool.hatch.build.targets.wheel]
-packages = ["python-generated"]
+packages = ["src"]
 
 [tool.hatch.version]
 source = "env"
@@ -36,12 +36,13 @@ dev-dependencies = [
     "jsonschema>=4.0.0"
 ]
 
+# TestPyPI for testing packages
 [[tool.uv.index]]
 name = "testpypi"
 url = "https://test.pypi.org/simple/"
 publish-url = "https://test.pypi.org/legacy/"
-explicit = false
+explicit = true
 
 [tool.coverage.run]
-source = ["python-generated"]
-omit = ["tests/*"]
+source = ["src"]
+omit = ["tests/*", "src/test/*"]
