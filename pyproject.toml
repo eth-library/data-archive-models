@@ -18,6 +18,8 @@ packages = ["python-generated"]
 
 [tool.hatch.version]
 source = "env"
+variable = "HATCH_VERSION"
+default = "0.1.0-dev"
 
 [tool.uv]
 dev-dependencies = [
