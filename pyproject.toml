@@ -13,6 +13,13 @@ dependencies = ["pydantic>=2.0.0"]
 [project.urls]
 Repository = "https://github.com/eth-library/data-archive-models"
 
+[tool.hatch.build]
+# Explicitly include the 'python-generated' directory in the package artifacts.
+# This ensures it's packaged even if it's ignored by Git.
+include = [
+    "python-generated"
+]
+
 [tool.hatch.build.targets.wheel]
 packages = ["python-generated"]
 
