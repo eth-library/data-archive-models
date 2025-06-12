@@ -14,14 +14,7 @@ dependencies = ["pydantic>=2.0.0"]
 Repository = "https://github.com/eth-library/data-archive-models"
 
 [tool.hatch.build]
-# Explicitly include the 'src' directory in the package artifacts.
-# This ensures it's packaged even if it's ignored by Git.
-include = [
-    "src"
-]
-
-[tool.hatch.build.targets.wheel]
-packages = ["src"]
+sources = ["src"]
 
 [tool.hatch.version]
 source = "env"
