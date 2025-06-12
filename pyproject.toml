@@ -1,5 +1,5 @@
 [build-system]
-requires = ["hatchling", "hatch-vcs"]
+requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
@@ -15,6 +15,9 @@ Repository = "https://github.com/eth-library/data-archive-models"
 
 [tool.hatch.build.targets.wheel]
 packages = ["python-generated"]
+
+[tool.hatch.version]
+source = "env"
 
 [tool.uv]
 dev-dependencies = [
@@ -33,6 +36,3 @@ explicit = true
 [tool.coverage.run]
 source = ["python-generated"]
 omit = ["tests/*"]
-
-[tool.hatch.version]
-source = "vcs"
