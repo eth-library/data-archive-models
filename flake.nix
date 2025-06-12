@@ -62,13 +62,8 @@
             echo ""
             ${log.info "Initializing Python environment..."}
 
-            # Generate dynamic HATCH_VERSION for local development
-            # Format: YYYY.MM.DD.dev0-local (e.g., 2025.06.12.dev0-local)
-            DATE_VERSION=$(date -u +%Y.%m.%d)
-            export HATCH_VERSION="$DATE_VERSION.dev0-local"
-
-            # This local development version will be safely overridden in CI
-            # where HATCH_VERSION is explicitly set for the build and publish steps
+            # Simple PEP 440 compliant version
+            export HATCH_VERSION="$(date -u +%Y.%m.%d).dev0"
 
             # Create virtual environment if it doesn't exist
             if [ ! -d ${venvDir} ]; then
