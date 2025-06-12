@@ -249,17 +249,17 @@ jobs:
         run: |
           # Enter the Nix development shell and run the build and publish commands
           nix develop --command bash -c '
+            # Set HATCH_VERSION environment variable for Hatchling's \"env\" version source
+            export HATCH_VERSION=\"${{ env.VERSION }}\"
 
             # Build the package (version is automatically read from HATCH_VERSION env var)
-            echo "Building package with version ${{ env.VERSION }}..."
+            echo \"Building package with version ${{ env.VERSION }}...\"
             uv build --no-sources --index-strategy unsafe-best-match
 
             # Publish to TestPyPI
-            echo "Publishing to TestPyPI..."
+            echo \"Publishing to TestPyPI...\"
             uv publish --index testpypi
           '
         env:
-          # Set the version using Hatch's official environment version source
-          HATCH_VERSION: ${{ env.VERSION }}
           # Pass the TestPyPI API token to the environment
           UV_PUBLISH_TOKEN: ${{ secrets.TESTPYPI_API_TOKEN }}
