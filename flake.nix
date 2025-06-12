@@ -32,10 +32,10 @@
           inherit system; 
           overlays = [ overlay ];
         };
-        
+
         # Define the path to the Python virtual environment
         venvDir = "./.venv";
-        
+
         # Define functions for structured logging without color codes
         log = {
           info = message: "echo \"[INFO] ${message}\"";
@@ -54,12 +54,21 @@
             python312Packages.datamodel-code-generator
             python312Packages.hatchling
             uv
+            git # Ensure git is available for version generation
           ];
 
           # Shell hook runs when the environment is entered
           shellHook = ''
             echo ""
             ${log.info "Initializing Python environment..."}
+
+            # Generate dynamic HATCH_VERSION for local development
+            # Format: YYYY.MM.DD.dev0-local (e.g., 2025.06.12.dev0-local)
+            DATE_VERSION=$(date -u +%Y.%m.%d)
+            export HATCH_VERSION="$DATE_VERSION.dev0-local"
+
+            # This local development version will be safely overridden in CI
+            # where HATCH_VERSION is explicitly set for the build and publish steps
 
             # Create virtual environment if it doesn't exist
             if [ ! -d ${venvDir} ]; then
