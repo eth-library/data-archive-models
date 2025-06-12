@@ -66,6 +66,16 @@
                 <version>3.2.5</version>
             </plugin>
             
+            <!-- Maven Resources Plugin for handling resource copying -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>3.3.1</version>
+                <configuration>
+                    <encoding>UTF-8</encoding>
+                </configuration>
+            </plugin>
+            
             <!-- Plugin for generating Java classes from JSON schema -->
             <plugin>
                 <groupId>org.jsonschema2pojo</groupId>
