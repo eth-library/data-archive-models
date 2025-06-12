@@ -137,8 +137,6 @@ The project uses GitHub Actions for CI. The workflow automatically:
 - Implements Maven dependency caching for all jobs
 - Runs schema validation tests
 - Generates Java classes from JSON schemas
-- Publishes the artifact to GitHub Packages
-
-## Future Goals
-
-- Publishing packages from JSON schemas to PyPI
+- Generates Python models from JSON schemas
+- Publishes Java artifacts to GitHub Packages
+- Publishes Python packages to TestPyPI
