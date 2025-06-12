@@ -68,7 +68,50 @@ datamodel-codegen \
   --use-schema-description
 ```
 
-### Build Options
+The generated models use Pydantic v2 and are stored in the `src/data_archive/` directory.
+
+### Java Class Generation
+
+Java classes are automatically generated from JSON schemas using the jsonschema2pojo Maven plugin:
+
+```xml
+<!-- Plugin configuration in pom.xml -->
+<plugin>
+    <groupId>org.jsonschema2pojo</groupId>
+    <artifactId>jsonschema2pojo-maven-plugin</artifactId>
+    <version>1.2.1</version>
+    <configuration>
+        <sourceDirectory>${project.basedir}/schemas/data-archive</sourceDirectory>
+        <outputDirectory>${project.build.directory}/generated-sources/</outputDirectory>
+        <targetPackage>ch.ethz.library.darc.model</targetPackage>
+        <excludes>
+            <exclude>_shared/**</exclude>
+            <exclude>catalog.json</exclude>
+        </excludes>
+    </configuration>
+</plugin>
+```
+
+The plugin is executed during the Maven `prepare-package` phase and generates Java classes from the JSON schemas in the `schemas/data-archive/` directory. The generated classes are stored in the `target/generated-sources/` directory under the package `ch.ethz.library.darc.model`.
+
+To generate the Java classes, you can use one of the Maven commands listed in the [Java Build Options](#java-build-options) section.
+
+### Dependency Management
+
+The project uses `uv` for Python dependency management:
+
+```bash
+# Generate lock file
+uv lock
+
+# Install dependencies
+uv sync
+
+# Build Python package
+uv build
+```
+
+### Java Build Options
 
 The project provides several Maven build commands:
 
