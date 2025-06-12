@@ -100,7 +100,18 @@ jobs:
         # Executes the Maven package phase within the Nix development shell.
         # This will trigger 'jsonschema2pojo' to generate your Java classes.
         # Tests are skipped as they were already run in the 'Run Unit Tests' job.
-        run: nix develop --command mvn prepare-package -DskipTests
+        run: nix develop --command mvn package -DskipTests
+
+      - name: Upload Maven target directory
+        # This step preserves the compiled Java classes and built JAR from this job
+        # to be used in the publish-to-github-packages job.
+        # This is necessary because GitHub Actions jobs run in isolated environments,
+        # and without this step, the compiled classes would not be available for deployment.
+        uses: actions/upload-artifact@v4
+        with:
+          name: maven-target
+          path: target/
+          retention-days: 1
 
   # Job 4: Publishes the Java .jar artifacts to GitHub Packages
   publish-to-github-packages:
@@ -121,6 +132,16 @@ jobs:
         with:
           extra_nix_config: |
             experimental-features = nix-command flakes
+
+      - name: Download Maven target directory
+        # This step retrieves the compiled Java classes and built JAR from the generate-java-models job
+        # and places them in the target/ directory of this job's workspace.
+        # This ensures that the mvn deploy command has access to the complete artifact for deployment,
+        # solving the issue of empty JARs being deployed due to isolated job environments.
+        uses: actions/download-artifact@v4
+        with:
+          name: maven-target
+          path: target/
 
       - name: Cache Maven packages
         uses: actions/cache@v4
