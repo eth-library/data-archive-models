@@ -51,6 +51,7 @@
             jdk
             maven
             python312
+            python312Packages.datamodel-code-generator
             python312Packages.hatchling
             uv
           ];
