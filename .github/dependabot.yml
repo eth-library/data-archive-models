@@ -1,0 +1,18 @@
+version: 2
+updates:
+  # Update Maven dependencies
+  - package-ecosystem: "maven"
+    directory: "/"
+    schedule:
+      interval: "daily" # Check for updates weekly
+      time: "23:15" # Time of day to check for updates
+    open-pull-requests-limit: 5 # Limit the number of open pull requests for dependencies
+
+  # Update GitHub Actions
+  - package-ecosystem: "github-actions"
+    directory: "/.github/workflows"
+    schedule:
+      interval: "weekly" # Check for updates weekly
+      time: "23:15" # Time of day to check for updates
+      day: "sunday" # Day of the week to run checks
+    open-pull-requests-limit: 3 # Limit the number of open pull requests for GitHub Actions
