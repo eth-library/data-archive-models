@@ -15,6 +15,9 @@ on:
     types: [created]
   workflow_dispatch:
 
+permissions:
+  contents: read
+
 jobs:
   # Job 1: Sets up the Nix build environment and validates your project's flake.nix configuration.
   # This ensures the foundational build tools (like Java, Maven) are available via Nix.
