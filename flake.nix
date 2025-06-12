@@ -76,7 +76,7 @@
             fi
 
             ${log.info "Installing Python dependencies with uv..."}
-            uv sync
+            uv sync --index-strategy unsafe-best-match
 
             # Print helpful information
             ${log.success "Development environment activated!"}
