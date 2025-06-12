@@ -241,7 +241,7 @@ jobs:
           # Enter the Nix development shell and run the code generation commands
           nix develop --command bash -c '
             # Ensure the output directory exists
-            mkdir -p python-generated/data_archive/
+            mkdir -p src/data_archive/
 
             # Generate Python models from JSON schemas
             echo "Generating Python models from JSON schemas..."
@@ -256,14 +256,14 @@ jobs:
             datamodel-codegen \
               --input-file-type jsonschema \
               --input schemas/data-archive/ \
-              --output python-generated/data_archive/ \
+              --output src/data_archive/ \
               --output-model-type pydantic_v2.BaseModel \
               --field-constraints \
               --use-schema-description
 
             # List generated files for verification
             echo "Generated Python models:"
-            ls -la python-generated/data_archive/
+            ls -la src/data_archive/
           '
 
       - name: Build and Publish to TestPyPI
