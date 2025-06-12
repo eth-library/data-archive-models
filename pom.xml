@@ -84,10 +84,9 @@
                 <executions>
                     <execution>
                         <id>generate-classes</id>
-                        <phase>prepare-package</phase>
-                        <goals>
-                            <goal>generate</goal>
-                        </goals>
+                        <phase>generate-sources</phase> <goals>
+                        <goal>generate</goal>
+                    </goals>
                     </execution>
                 </executions>
                 <configuration>
