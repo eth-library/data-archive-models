@@ -275,7 +275,7 @@ jobs:
 
             # Build the package
             echo "Building package..."
-            uv build --no-sources --index-strategy unsafe-best-match
+            uv build --index-strategy unsafe-best-match
 
             # Publish to TestPyPI
             echo "Publishing to TestPyPI..."
