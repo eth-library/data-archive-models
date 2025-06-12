@@ -184,9 +184,11 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+  # Job 5: Publishes Python package to TestPyPI (runs in parallel with GitHub Packages)
   publish-to-testpypi:
     name: Publish to TestPyPI
     runs-on: ubuntu-latest
+    needs: generate-java-models # Runs after Java models are generated, parallel to GitHub Packages
     # Only run this job when pushing to the main branch
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     permissions:
@@ -204,14 +206,19 @@ jobs:
           extra_nix_config: |
             experimental-features = nix-command flakes
 
-      - name: Generate Dynamic Version
-        id: version
+      - name: Set Dynamic Package Version
+        # This step will calculate the version and then use 'hatch version'
+        # to inject it directly into pyproject.toml, overriding the VCS source.
         run: |
-          # Generate a PEP 440 compliant version string using current date and run number
+          # Generate a PEP 440 compliant version string using current UTC date and GitHub Run Number.
           # Format: YYYY.MM.DD.dev<RUN_NUMBER>
-          VERSION=$(date -u +%Y.%m.%d.dev${{ github.run_number }})
-          echo "VERSION=$VERSION" >> $GITHUB_ENV
-          echo "Generated version: $VERSION"
+          VERSION=$(date -u +%Y.%m.%d).dev${{ github.run_number }}
+          echo "Calculated version for publishing: $VERSION"
+          
+          # Enter the Nix development shell and use 'hatch version' to update pyproject.toml.
+          # This will convert 'dynamic = ["version"]' to 'version = "$VERSION"'
+          # and remove the '[tool.hatch.version]' section for this build.
+          nix develop --command bash -c "hatch version $VERSION"
 
       - name: Build and Publish to TestPyPI
         run: |
