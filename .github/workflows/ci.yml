@@ -183,3 +183,52 @@ jobs:
         run: nix develop --command mvn --batch-mode deploy -DskipTests
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  publish-to-testpypi:
+    name: Publish to TestPyPI
+    runs-on: ubuntu-latest
+    # Only run this job when pushing to the main branch
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        with:
+          # Fetch all history for proper versioning
+          fetch-depth: 0
+
+      - name: Install Nix with Flakes Support
+        uses: cachix/install-nix-action@v31
+        with:
+          extra_nix_config: |
+            experimental-features = nix-command flakes
+
+      - name: Generate Dynamic Version
+        id: version
+        run: |
+          # Generate a PEP 440 compliant version string using current date and run number
+          # Format: YYYY.MM.DD.dev<RUN_NUMBER>
+          VERSION=$(date -u +%Y.%m.%d.dev${{ github.run_number }})
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
+          echo "Generated version: $VERSION"
+
+      - name: Build and Publish to TestPyPI
+        run: |
+          # Enter the Nix development shell and run the build and publish commands
+          nix develop --command bash -c '
+
+            # Set the dynamic version for this build
+            export HATCH_BUILD_HOOK_VERSION="${{ env.VERSION }}"
+
+            # Build the package
+            echo "Building package with version ${{ env.VERSION }}..."
+            uv build --no-sources
+
+            # Publish to TestPyPI
+            echo "Publishing to TestPyPI..."
+            uv publish --index testpypi
+          '
+        env:
+          # Pass the TestPyPI API token to the environment
+          UV_PUBLISH_TOKEN: ${{ secrets.TESTPYPI_API_TOKEN }}
