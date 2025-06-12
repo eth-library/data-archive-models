@@ -215,6 +215,36 @@ jobs:
           echo "VERSION=$VERSION" >> $GITHUB_ENV
           echo "Retrieved version: $VERSION"
 
+      - name: Generate Python Models from Schemas
+        run: |
+          # Enter the Nix development shell and run the code generation commands
+          nix develop --command bash -c '
+            # Ensure the output directory exists
+            mkdir -p python-generated/data_archive/
+
+            # Generate Python models from JSON schemas
+            echo "Generating Python models from JSON schemas..."
+
+            # Execute datamodel-codegen with the following parameters:
+            # --input-file-type: Specifies the input file type as JSON schema
+            # --input: Path to the directory containing JSON schema files
+            # --output: Path where the generated Python models will be saved
+            # --output-model-type: Specifies the base class for generated models (Pydantic v2)
+            # --field-constraints: Adds validation based on JSON schema constraints
+            # --use-schema-description: Uses schema descriptions for class docstrings
+            datamodel-codegen \
+              --input-file-type jsonschema \
+              --input schemas/data-archive/ \
+              --output python-generated/data_archive/ \
+              --output-model-type pydantic_v2.BaseModel \
+              --field-constraints \
+              --use-schema-description
+
+            # List generated files for verification
+            echo "Generated Python models:"
+            ls -la python-generated/data_archive/
+          '
+
       - name: Build and Publish to TestPyPI
         run: |
           # Enter the Nix development shell and run the build and publish commands
