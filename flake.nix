@@ -62,8 +62,10 @@
             echo ""
             ${log.info "Initializing Python environment..."}
 
-            # Simple PEP 440 compliant version
-            export HATCH_VERSION="$(date -u +%Y.%m.%d).dev0"
+            # Set HATCH_VERSION only if not already set (preserves CI environment)
+            if [ -z "$HATCH_VERSION" ]; then
+              export HATCH_VERSION="$(date -u +%Y.%m.%d).dev0"
+            fi
 
             # Create virtual environment if it doesn't exist
             if [ ! -d ${venvDir} ]; then
