@@ -206,29 +206,21 @@ jobs:
           extra_nix_config: |
             experimental-features = nix-command flakes
 
-      - name: Set Dynamic Package Version
-        # This step will calculate the version and then use 'hatch version'
-        # to inject it directly into pyproject.toml, overriding the VCS source.
+      - name: Retrieve Dynamic Version
+        id: version
         run: |
-          # Generate a PEP 440 compliant version string using current UTC date and GitHub Run Number.
+          # Generate a PEP 440 compliant version string using current date and run number
           # Format: YYYY.MM.DD.dev<RUN_NUMBER>
-          VERSION=$(date -u +%Y.%m.%d).dev${{ github.run_number }}
-          echo "Calculated version for publishing: $VERSION"
-          
-          # Enter the Nix development shell and use 'hatch version' to update pyproject.toml.
-          # This will convert 'dynamic = ["version"]' to 'version = "$VERSION"'
-          # and remove the '[tool.hatch.version]' section for this build.
-          nix develop --command bash -c "hatch version $VERSION"
+          VERSION=$(date -u +%Y.%m.%d.dev${{ github.run_number }})
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
+          echo "Retrieved version: $VERSION"
 
       - name: Build and Publish to TestPyPI
         run: |
           # Enter the Nix development shell and run the build and publish commands
           nix develop --command bash -c '
 
-            # Set the dynamic version for this build
-            export HATCH_BUILD_HOOK_VERSION="${{ env.VERSION }}"
-
-            # Build the package
+            # Build the package (version is automatically read from HATCH_VERSION env var)
             echo "Building package with version ${{ env.VERSION }}..."
             uv build --no-sources
 
@@ -237,5 +229,7 @@ jobs:
             uv publish --index testpypi
           '
         env:
+          # Set the version using Hatch's official environment version source
+          HATCH_VERSION: ${{ env.VERSION }}
           # Pass the TestPyPI API token to the environment
           UV_PUBLISH_TOKEN: ${{ secrets.TESTPYPI_API_TOKEN }}
