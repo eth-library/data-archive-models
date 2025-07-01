@@ -130,6 +130,109 @@ The project provides several Maven build commands:
    mvn package
    ```
 
+## Data Model
+
+### Class Diagram
+
+The following class diagram visualizes the relationships between the different entities in the data archive model. The diagram is automatically generated from the Pydantic models in the codebase.
+
+<!-- BEGIN_MERMAID_DIAGRAM -->
+```mermaid
+classDiagram
+    class Schema {
+        +str name
+        +str version
+        +AnyUrl url
+    }
+    class DataArchiveModelCatalog {
+        %% Catalog of all schemas in the Data Archive Model
+        +List[Schema] schemas
+    }
+    class Deposit {
+        %% An OAIS Deposit entity representing a submission from a Producer
+        +oais_base_defs.Identifier identifier
+        +oais_base_defs.DateTime dateCreated
+        +Producer producer
+        +str name
+        +Optional[Status] status
+        +List[SIP.SubmissionInformationPackage] sips
+    }
+    class SubmissionInformationPackage {
+        %% An OAIS Submission Information Package (SIP) entity
+        +oais_base_defs.Identifier identifier
+        +str name
+        +Producer producer
+        +List[IntellectualEntity] intellectualEntities
+        +Optional[State] state
+    }
+    class Producer {
+        %% An OAIS Producer entity that creates and submits content
+        +oais_base_defs.Identifier identifier
+        +oais_base_defs.DateTime dateCreated
+        +str name
+        +Optional[str] contact
+    }
+    class File {
+        %% An OAIS File entity representing a digital file
+        +oais_base_defs.Identifier identifier
+        +Optional[oais_base_defs.DateTime] dateCreated
+        +Optional[str] name
+        +str path
+        +List[Fixity] fixities
+    }
+    class Fixity {
+        %% An OAIS Fixity entity representing integrity information for a digital file
+        +oais_base_defs.Identifier identifier
+        +List[oais_base_defs.Checksum] checksums
+    }
+    class Representation {
+        %% An OAIS Representation entity representing a specific form of an Intellectual Entity
+        +oais_base_defs.Identifier identifier
+        +str name
+        +List[File] files
+    }
+    class IntellectualEntity {
+        %% An OAIS Intellectual Entity representing a conceptual object
+        +oais_base_defs.Identifier identifier
+        +List[Representation] representations
+    }
+    class OaisBaseDefinitions {
+        %% Common definitions used across OAIS schemas
+    }
+    class Checksum {
+        +Algorithm algorithm
+        +str value
+    }
+    DataArchiveModelCatalog *-- Schema : contains many
+    Representation *-- File : contains many
+    Deposit *-- SubmissionInformationPackage : contains many
+    SubmissionInformationPackage *-- Producer : contains
+    IntellectualEntity *-- Representation : contains many
+    SubmissionInformationPackage *-- IntellectualEntity : contains many
+    Fixity *-- Checksum : contains many
+    File *-- Fixity : contains many
+    Deposit *-- Producer : contains
+```
+<!-- END_MERMAID_DIAGRAM -->
+
+### Generating the Diagram
+
+The class diagram is generated using Python scripts located in the `scripts` directory:
+
+- `scripts/generate_mermaid_diagram.py`: Generates a Mermaid class diagram from Pydantic models in the data_archive package
+- `scripts/update_readme.py`: Updates this README.md file with the generated diagram
+
+To update the diagram:
+
+```bash
+python scripts/update_readme.py
+```
+
+This will:
+1. Scan the Pydantic models in the `src/data_archive` directory
+2. Generate a Mermaid class diagram
+3. Update the diagram in this README.md file between the marker comments
+
 ## Continuous Integration
 
 The project uses GitHub Actions for CI. The workflow automatically:
