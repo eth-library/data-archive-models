@@ -1,4 +1,7 @@
 ![Project Status: Alpha](https://img.shields.io/badge/status-alpha-orange)
+![Build](https://img.shields.io/github/actions/workflow/status/eth-library/data-archive-models/ci.yml?style=flat-square)
+![Java](https://img.shields.io/badge/java-21-blue?style=flat-square)
+![Python](https://img.shields.io/badge/python-3.12%2B-blue?style=flat-square)
 
 # Data Archive Models
 
