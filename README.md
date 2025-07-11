@@ -1,3 +1,5 @@
+![Project Status: Alpha](https://img.shields.io/badge/status-alpha-orange)
+
 # Data Archive Models
 
 A collection of JSON schemas defining data models for digital archiving systems based on the OAIS (Open Archival Information System) reference model. These schemas provide standardized definitions for various components of a data archive.
@@ -15,6 +17,16 @@ The project defines JSON schemas for key entities in a digital archiving workflo
 - **Fixity**: Integrity information for digital files
 
 All schemas are currently at version 0.1.0, indicating this is an early-stage project.
+
+> ### Project Status Notice
+> This project is in **alpha** and actively evolving.
+>
+> - **Stability:** Bugs, breaking changes, or incomplete features may occur.
+> - **Evolution:** APIs and behaviors can change as we refine functionality.
+>
+> Provided as‑is, with no guarantees on stability.
+>
+> We appreciate your patience and feedback!
 
 ## Setup/Installation
 
