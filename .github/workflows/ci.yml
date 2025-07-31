@@ -51,6 +51,9 @@ jobs:
         # This ensures that tests related to 'JsonSchemaValidationTest' are executed
         # using the Java and Maven versions specified in your Nix configuration.
         run: nix develop --command mvn --settings ci/mvn_settings.xml -Dtest=JsonSchemaValidationTest test
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_ACTOR: ${{ github.actor }}
 
   # Generates Java models from the JSON schemas.
   # This job proceeds only if the unit tests have passed successfully.
@@ -84,6 +87,9 @@ jobs:
         # This will trigger 'jsonschema2pojo' to generate your Java classes.
         # Tests are skipped as they were already run in the 'Run Unit Tests' job.
         run: nix develop --command mvn --settings ci/mvn_settings.xml package -DskipTests
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_ACTOR: ${{ github.actor }}
 
       - name: Upload Maven target directory
         # This step preserves the compiled Java classes and built JAR from this job
@@ -141,6 +147,7 @@ jobs:
         run: nix develop --command mvn --settings ci/mvn_settings.xml --batch-mode deploy -DskipTests
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_ACTOR: ${{ github.actor }}
 
   # Publishes Python package to TestPyPI (runs in parallel with GitHub Packages)
   publish-to-testpypi:
