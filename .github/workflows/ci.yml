@@ -50,7 +50,7 @@ jobs:
         # Runs the Maven test command within the Nix development shell.
         # This ensures that tests related to 'JsonSchemaValidationTest' are executed
         # using the Java and Maven versions specified in your Nix configuration.
-        run: nix develop --command mvn -Dtest=JsonSchemaValidationTest test
+        run: nix develop --command mvn --settings ci/mvn_settings.xml -Dtest=JsonSchemaValidationTest test
 
   # Generates Java models from the JSON schemas.
   # This job proceeds only if the unit tests have passed successfully.
@@ -83,7 +83,7 @@ jobs:
         # Executes the Maven package phase within the Nix development shell.
         # This will trigger 'jsonschema2pojo' to generate your Java classes.
         # Tests are skipped as they were already run in the 'Run Unit Tests' job.
-        run: nix develop --command mvn package -DskipTests
+        run: nix develop --command mvn --settings ci/mvn_settings.xml package -DskipTests
 
       - name: Upload Maven target directory
         # This step preserves the compiled Java classes and built JAR from this job
@@ -134,57 +134,11 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-maven-
 
-      - name: Configure Maven for GitHub Packages
-        # This step dynamically creates a Maven settings.xml file with GitHub Packages authentication.
-        # It's necessary because 'nix develop' doesn't automatically configure Maven like 'setup-java'.
-        #
-        # Security Note:
-        # - The settings.xml file is created temporarily in the runner's ephemeral environment.
-        # - It is automatically destroyed after the job completes, preventing persistent storage of credentials.
-        # - The GITHUB_TOKEN (accessed via secrets.GITHUB_TOKEN) is automatically masked in logs by GitHub.
-        run: |
-          # Create the .m2 directory if it doesn't exist
-          mkdir -p ~/.m2
-
-          # Write the settings.xml content using a "here-doc" for clean multi-line output
-          cat > ~/.m2/settings.xml <<EOF
-          <settings>
-            <servers>
-              <server>
-                <id>github</id> <!-- This ID must match the <id> in your pom.xml's <distributionManagement> -->
-                <username>${{ github.actor }}</username> <!-- Uses the GitHub user/bot that triggered the workflow -->
-                <password>${{ secrets.GITHUB_TOKEN }}</password> <!-- Uses the auto-generated, short-lived GITHUB_TOKEN -->
-              </server>
-            </servers>
-            <profiles>
-              <profile>
-                <id>github</id>
-                <repositories>
-                  <repository>
-                    <id>github</id>
-                    <url>https://maven.pkg.github.com/eth-library/data-archive-models</url>
-                    <snapshots>
-                      <enabled>true</enabled>
-                    </snapshots>
-                  </repository>
-                </repositories>
-              </profile>
-            </profiles>
-            <activeProfiles>
-              <activeProfile>github</activeProfile>
-            </activeProfiles>
-          </settings>
-          EOF
-        env:
-          # Explicitly pass GITHUB_TOKEN to the environment, though it's primarily
-          # consumed by Maven via the settings.xml configuration.
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
       - name: Deploy to GitHub Packages
         # Executes the Maven deploy goal within the Nix development shell.
         # This will publish the artifact to GitHub Packages.
         # The GITHUB_TOKEN is used for authentication.
-        run: nix develop --command mvn --batch-mode deploy -DskipTests
+        run: nix develop --command mvn --settings ci/mvn_settings.xml --batch-mode deploy -DskipTests
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
