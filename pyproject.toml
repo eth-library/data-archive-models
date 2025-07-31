@@ -31,12 +31,23 @@ dev-dependencies = [
     "jsonschema>=4.0.0"
 ]
 
-# TestPyPI for testing packages
+# Index configuration for UV
+# This configuration ensures that downstream consumers can resolve to the newest release on TestPyPI
+# without needing explicit version pins.
+
+# TestPyPI for all releases
 [[tool.uv.index]]
 name = "testpypi"
 url = "https://test.pypi.org/simple/"
 publish-url = "https://test.pypi.org/legacy/"
-explicit = true
+# Setting explicit to false allows UV to automatically use this index
+explicit = false
+
+# Index mapping to ensure downstream consumers can resolve to the newest release on TestPyPI
+[tool.uv.index-map]
+# Map the package name to TestPyPI
+# This ensures that UV will check TestPyPI when resolving dependencies
+"data-archive-models" = ["testpypi"]
 
 [tool.coverage.run]
 source = ["src"]
