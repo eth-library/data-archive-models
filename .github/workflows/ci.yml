@@ -221,7 +221,7 @@ jobs:
           nix develop --command bash -c '
             # Build the package using Hatch (version determined by Git tags)
             echo "Building package..."
-            hatch build
+            uv build
 
             # Publish to TestPyPI using UV
             echo "Publishing to TestPyPI..."
