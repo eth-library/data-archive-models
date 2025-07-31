@@ -38,7 +38,13 @@ dev-dependencies = [
 # This configuration ensures that downstream consumers can resolve to the newest release on TestPyPI
 # without needing explicit version pins.
 
-# TestPyPI for all releases
+# Index configuration for UV
+# PyPI first for reliable dependency resolution, TestPyPI for publishing
+[[tool.uv.index]]
+name = "pypi"
+url = "https://pypi.org/simple/"
+explicit = false
+
 [[tool.uv.index]]
 name = "testpypi"
 url = "https://test.pypi.org/simple/"
