@@ -1,10 +1,10 @@
 version: 2
 updates:
-  # Update Maven dependencies
+  # Update Maven (Java) dependencies
   - package-ecosystem: "maven"
     directory: "/"
     schedule:
-      interval: "daily" # Check for updates weekly
+      interval: "daily" # Check for updates daily
       time: "23:15" # Time of day to check for updates
     open-pull-requests-limit: 5 # Limit the number of open pull requests for dependencies
 
