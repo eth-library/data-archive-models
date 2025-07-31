@@ -5,8 +5,8 @@
         <servers>
             <server>
                 <id>github</id> <!-- This ID must match the <id> in your pom.xml's <distributionManagement> -->
-                <username>${{ github.actor }}</username> <!-- Uses the GitHub user/bot that triggered the workflow -->
-                <password>${{ secrets.GITHUB_TOKEN }}</password> <!-- Uses the auto-generated, short-lived GITHUB_TOKEN -->
+                <username>${env.GITHUB_ACTOR}</username> <!-- Uses the GitHub user/bot that triggered the workflow -->
+                <password>${env.GITHUB_TOKEN}</password> <!-- Uses the auto-generated, short-lived GITHUB_TOKEN -->
             </server>
         </servers>
         <profiles>
