@@ -174,24 +174,6 @@ jobs:
           extra_nix_config: |
             experimental-features = nix-command flakes
 
-      # Create tag for release events
-      - name: Create Git Tag for Release
-        if: github.event_name == 'release'
-        run: |
-          # Configure git
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
-
-          # Extract version from release name and create tag
-          TAG_NAME="${{ github.event.release.tag_name }}"
-          if [[ ! "$TAG_NAME" =~ ^v ]]; then
-            TAG_NAME="v$TAG_NAME"
-          fi
-
-          echo "Creating tag $TAG_NAME for release"
-          git tag -a "$TAG_NAME" -m "Release $TAG_NAME"
-          git push origin "$TAG_NAME"
-
       - name: Generate Python Models from Schemas
         run: |
           # Enter the Nix development shell and run the code generation commands
