@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "data-archive-models"
-dynamic = ["version"]
+version = "0.1.0"
 description = "ETH Library Data Archive Models - Python Pydantic classes"
 readme = "README.md"
 requires-python = ">=3.12"
@@ -20,9 +20,8 @@ packages = ["src/data_archive"]
 include = ["src/data_archive"]
 
 [tool.hatch.version]
-source = "env"
-variable = "HATCH_VERSION"
-default = "0.1.0-dev"
+path = "pyproject.toml"
+pattern = "version = \"(?P<version>.+)\""
 
 [tool.uv]
 dev-dependencies = [
