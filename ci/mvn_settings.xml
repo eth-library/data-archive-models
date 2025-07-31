@@ -1,0 +1,29 @@
+<settings xmlns="http://maven.apache.org/SETTINGS/1.0.0"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0
+                      http://maven.apache.org/xsd/settings-1.0.0.xsd">
+        <servers>
+            <server>
+                <id>github</id> <!-- This ID must match the <id> in your pom.xml's <distributionManagement> -->
+                <username>${{ github.actor }}</username> <!-- Uses the GitHub user/bot that triggered the workflow -->
+                <password>${{ secrets.GITHUB_TOKEN }}</password> <!-- Uses the auto-generated, short-lived GITHUB_TOKEN -->
+            </server>
+        </servers>
+        <profiles>
+            <profile>
+                <id>github</id>
+                <repositories>
+                    <repository>
+                        <id>github</id>
+                        <url>https://maven.pkg.github.com/eth-library/data-archive-models</url>
+                        <snapshots>
+                            <enabled>true</enabled>
+                        </snapshots>
+                    </repository>
+                </repositories>
+            </profile>
+        </profiles>
+        <activeProfiles>
+            <activeProfile>github</activeProfile>
+        </activeProfiles>
+    </settings>
