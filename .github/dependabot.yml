@@ -7,6 +7,18 @@ updates:
       interval: "daily" # Check for updates daily
       time: "23:15" # Time of day to check for updates
     open-pull-requests-limit: 5 # Limit the number of open pull requests for dependencies
+  # Update uv/pip (Python) dependencies
+  # For full details, see official UV documentation:
+  # https://docs.astral.sh/uv/guides/integration/dependency-bots/#dependabot
+  # Note: GitHub Dependabot support for uv is still a work in progress
+  # See issue #2512: https://github.com/astral-sh/uv/issues/2512
+  - package-ecosystem: "pip"
+    allow:
+      - dependency-type: "all"     # Allow both direct and indirect updates for all packages
+    directory: "/"                 # Location of package manifests
+    schedule:
+      interval: "daily" # Check for updates daily
+      time: "23:15" # Time of day to check for updates
 
   # Update GitHub Actions
   - package-ecosystem: "github-actions"
