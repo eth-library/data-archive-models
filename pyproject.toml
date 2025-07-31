@@ -1,10 +1,10 @@
 [build-system]
-requires = ["hatchling"]
+requires = ["hatchling", "hatch-vcs"]
 build-backend = "hatchling.build"
 
 [project]
 name = "data-archive-models"
-version = "0.1.0"
+dynamic = ["version"]
 description = "ETH Library Data Archive Models - Python Pydantic classes"
 readme = "README.md"
 requires-python = ">=3.12"
@@ -20,8 +20,11 @@ packages = ["src/data_archive"]
 include = ["src/data_archive"]
 
 [tool.hatch.version]
-path = "pyproject.toml"
-pattern = "version = \"(?P<version>.+)\""
+source = "vcs"
+fallback-version = "0.1.0"
+
+[tool.hatch.version.raw-options]
+local_scheme = "no-local-version"
 
 [tool.uv]
 dev-dependencies = [
