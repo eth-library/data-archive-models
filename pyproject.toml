@@ -46,12 +46,6 @@ publish-url = "https://test.pypi.org/legacy/"
 # Setting explicit to false allows UV to automatically use this index
 explicit = false
 
-# Index mapping to ensure downstream consumers can resolve to the newest release on TestPyPI
-[tool.uv.index-map]
-# Map the package name to TestPyPI
-# This ensures that UV will check TestPyPI when resolving dependencies
-"data-archive-models" = ["testpypi"]
-
 [tool.coverage.run]
 source = ["src"]
 omit = ["tests/*", "src/test/*"]
