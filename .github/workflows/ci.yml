@@ -127,7 +127,7 @@ jobs:
         # and places them in the target/ directory of this job's workspace.
         # This ensures that the mvn deploy command has access to the complete artifact for deployment,
         # solving the issue of empty JARs being deployed due to isolated job environments.
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v5
         with:
           name: maven-target
           path: target/
