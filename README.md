@@ -154,79 +154,67 @@ The following class diagram visualizes the relationships between the different e
 <!-- BEGIN_MERMAID_DIAGRAM -->
 ```mermaid
 classDiagram
-    class Schema {
-        +str name
-        +str version
-        +AnyUrl url
-    }
-    class DataArchiveModelCatalog {
-        %% Catalog of all schemas in the Data Archive Model
-        +List[Schema] schemas
+    class Checksum {
+        %% A checksum value with its algorithm
+        +Algorithm algorithm
+        +str value
     }
     class Deposit {
         %% An OAIS Deposit entity representing a submission from a Producer
-        +oais_base_defs.Identifier identifier
-        +oais_base_defs.DateTime dateCreated
+        +UUID identifier
+        +datetime dateCreated
         +Producer producer
         +str name
         +Optional[Status] status
-        +List[SIP.SubmissionInformationPackage] sips
+        +Sequence[SIP.SubmissionInformationPackage] sips
     }
     class SubmissionInformationPackage {
         %% An OAIS Submission Information Package (SIP) entity
-        +oais_base_defs.Identifier identifier
+        +UUID identifier
         +str name
         +Producer producer
-        +List[IntellectualEntity] intellectualEntities
+        +Sequence[IntellectualEntity] intellectualEntities
         +Optional[State] state
     }
     class Producer {
         %% An OAIS Producer entity that creates and submits content
-        +oais_base_defs.Identifier identifier
-        +oais_base_defs.DateTime dateCreated
+        +UUID identifier
+        +datetime dateCreated
         +str name
         +Optional[str] contact
     }
     class File {
         %% An OAIS File entity representing a digital file
-        +oais_base_defs.Identifier identifier
-        +Optional[oais_base_defs.DateTime] dateCreated
+        +UUID identifier
+        +Optional[datetime] dateCreated
         +Optional[str] name
         +str path
-        +List[Fixity] fixities
+        +Sequence[Fixity] fixities
     }
     class Fixity {
         %% An OAIS Fixity entity representing integrity information for a digital file
-        +oais_base_defs.Identifier identifier
-        +List[oais_base_defs.Checksum] checksums
+        +UUID identifier
+        +Sequence[Checksum] checksums
     }
     class Representation {
         %% An OAIS Representation entity representing a specific form of an Intellectual Entity
-        +oais_base_defs.Identifier identifier
+        +UUID identifier
         +str name
-        +List[File] files
+        +Sequence[File] files
     }
     class IntellectualEntity {
         %% An OAIS Intellectual Entity representing a conceptual object
-        +oais_base_defs.Identifier identifier
-        +List[Representation] representations
+        +UUID identifier
+        +Sequence[Representation] representations
     }
-    class OaisBaseDefinitions {
-        %% Common definitions used across OAIS schemas
-    }
-    class Checksum {
-        +Algorithm algorithm
-        +str value
-    }
-    DataArchiveModelCatalog *-- Schema : contains many
-    Representation *-- File : contains many
-    Deposit *-- SubmissionInformationPackage : contains many
+    Representation *-- File : contains
     SubmissionInformationPackage *-- Producer : contains
-    IntellectualEntity *-- Representation : contains many
-    SubmissionInformationPackage *-- IntellectualEntity : contains many
-    Fixity *-- Checksum : contains many
-    File *-- Fixity : contains many
+    Fixity *-- Checksum : contains
+    File *-- Fixity : contains
+    SubmissionInformationPackage *-- IntellectualEntity : contains
+    Deposit *-- SubmissionInformationPackage : contains
     Deposit *-- Producer : contains
+    IntellectualEntity *-- Representation : contains
 ```
 <!-- END_MERMAID_DIAGRAM -->
 
