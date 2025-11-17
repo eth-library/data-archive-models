@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "Checksum.json",
+  "title": "Checksum",
+  "description": "A checksum value with its algorithm",
+  "type": "object",
+  "properties": {
+    "algorithm": {
+      "type": "string",
+      "enum": ["SHA512", "MD5", "CRC32"],
+      "description": "The algorithm used to generate the checksum"
+    },
+    "value": {
+      "type": "string",
+      "pattern": "^[0-9a-fA-F]+$",
+      "description": "The hexadecimal value of the checksum"
+    }
+  },
+  "required": ["algorithm", "value"],
+  "additionalProperties": false
+}
