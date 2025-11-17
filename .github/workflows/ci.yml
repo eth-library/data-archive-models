@@ -191,13 +191,19 @@ jobs:
             # --output-model-type: Specifies the base class for generated models (Pydantic v2)
             # --field-constraints: Adds validation based on JSON schema constraints
             # --use-schema-description: Uses schema descriptions for class docstrings
+            # --use-standard-collections: Use standard collections for better compatibility
+            # --use-generic-container-types: Use generic container types
+            # --target-python-version: Target Python 3.12 for optimal compatibility
             datamodel-codegen \
               --input-file-type jsonschema \
               --input schemas/data-archive/ \
               --output src/data_archive/ \
               --output-model-type pydantic_v2.BaseModel \
               --field-constraints \
-              --use-schema-description
+              --use-schema-description \
+              --use-standard-collections \
+              --use-generic-container-types \
+              --target-python-version 3.12
 
             # List generated files for verification
             echo "Generated Python models:"
