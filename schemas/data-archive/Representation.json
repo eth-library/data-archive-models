@@ -1,12 +1,14 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "schemaVersion": "0.1.0",
+  "$id": "Representation.json",
   "title": "Representation",
   "description": "An OAIS Representation entity representing a specific form of an Intellectual Entity",
   "type": "object",
   "properties": {
     "identifier": {
-      "$ref": "./_shared/oais_base_defs.json#/definitions/identifier"
+      "type": "string",
+      "format": "uuid",
+      "description": "Unique identifier"
     },
     "name": {
       "type": "string",

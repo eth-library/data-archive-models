@@ -1,15 +1,19 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "schemaVersion": "0.1.0",
+  "$id": "Deposit.json",
   "title": "Deposit",
   "description": "An OAIS Deposit entity representing a submission from a Producer",
   "type": "object",
   "properties": {
     "identifier": {
-      "$ref": "./_shared/oais_base_defs.json#/definitions/identifier"
+      "type": "string",
+      "format": "uuid",
+      "description": "Unique identifier"
     },
     "dateCreated": {
-      "$ref": "./_shared/oais_base_defs.json#/definitions/dateTime"
+      "type": "string",
+      "format": "date-time",
+      "description": "Creation timestamp"
     },
     "producer": {
       "$ref": "./Producer.json"
