@@ -50,7 +50,7 @@ jobs:
         # Runs the Maven test command within the Nix development shell.
         # This ensures that tests related to 'JsonSchemaValidationTest' are executed
         # using the Java and Maven versions specified in your Nix configuration.
-        run: nix develop --command mvn --settings ci/mvn_settings.xml -Dtest=JsonSchemaValidationTest test
+        run: nix develop --command mvn --settings ci/mvn_settings.xml --batch-mode -Dtest=JsonSchemaValidationTest test
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITHUB_ACTOR: ${{ github.actor }}
