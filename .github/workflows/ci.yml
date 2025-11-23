@@ -28,7 +28,7 @@ jobs:
       contents: read
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
 
       - name: Install Nix with Flakes Support (for this job)
         # Each job in GitHub Actions runs in an isolated environment.
@@ -65,7 +65,7 @@ jobs:
       contents: read
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
 
       - name: Install Nix with Flakes Support (for this job)
         # Nix needs to be installed for this independent job as well to ensure the environment is ready.
@@ -114,7 +114,7 @@ jobs:
       packages: write
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
 
       - name: Install Nix with Flakes Support (for this job)
         uses: cachix/install-nix-action@v31
@@ -163,7 +163,7 @@ jobs:
     # No environment variables needed as version is determined by Git tags
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         with:
           # Fetch all history including tags for proper versioning
           fetch-depth: 0
