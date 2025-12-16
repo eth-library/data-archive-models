@@ -96,7 +96,7 @@ jobs:
         # to be used in the publish-to-github-packages job.
         # This is necessary because GitHub Actions jobs run in isolated environments,
         # and without this step, the compiled classes would not be available for deployment.
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         with:
           name: maven-target
           path: target/
