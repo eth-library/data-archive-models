@@ -85,6 +85,12 @@ datamodel-codegen \
 
 The generated models use Pydantic v2 and are stored in the `src/data_archive/` directory.
 
+### JSON Schema Best Practices Review
+
+For an in‑depth analysis of the current JSON Schemas, recommended improvements, and CI/CD pipeline suggestions related to schema validation and code generation, see:
+
+- docs/json-schema-review.md
+
 ### Java Class Generation
 
 Java classes are automatically generated from JSON schemas using the jsonschema2pojo Maven plugin:
@@ -145,6 +151,39 @@ The project provides several Maven build commands:
    mvn package
    ```
 
+## Validation
+
+### Validate JSON Schemas
+
+Validate that all JSON schemas are syntactically correct and comply with JSON Schema Draft 2020-12:
+
+```bash
+check-jsonschema --check-metaschema schemas/data-archive/*.json
+```
+
+This command validates:
+- Schema syntax and structure
+- Compliance with JSON Schema specification
+- Cross-references between schemas (`$ref` resolution)
+
+### Validate Generated Pydantic Models
+
+After generating Python models, validate them for type correctness:
+
+```bash
+# Type-check with mypy
+mypy src/data_archive/ --ignore-missing-imports
+
+# Lint with ruff (faster alternative)
+ruff check src/data_archive/
+```
+
+This validates:
+- Python syntax correctness
+- Type annotations
+- Import resolution (model cross-references)
+- Pydantic model structure
+
 ## Data Model
 
 ### Class Diagram
@@ -154,6 +193,15 @@ The following class diagram visualizes the relationships between the different e
 <!-- BEGIN_MERMAID_DIAGRAM -->
 ```mermaid
 classDiagram
+    class Schema {
+        +str name
+        +str version
+        +AnyUrl url
+    }
+    class DataArchiveModelCatalog {
+        %% Catalog of all schemas in the Data Archive Model
+        +Sequence[Schema] schemas
+    }
     class Checksum {
         %% A checksum value with its algorithm
         +Algorithm algorithm
@@ -166,14 +214,15 @@ classDiagram
         +Producer producer
         +str name
         +Optional[Status] status
-        +Sequence[SIP.SubmissionInformationPackage] sips
+        +List[SIP.SubmissionInformationPackage] sips
+        +DepositMetadataFile metadataFile
     }
     class SubmissionInformationPackage {
         %% An OAIS Submission Information Package (SIP) entity
         +UUID identifier
         +str name
         +Producer producer
-        +Sequence[IntellectualEntity] intellectualEntities
+        +List[IntellectualEntity] intellectualEntities
         +Optional[State] state
     }
     class Producer {
@@ -183,38 +232,55 @@ classDiagram
         +str name
         +Optional[str] contact
     }
+    class IEMetadataFile {
+        %% An external metadata file accompanying an intellectual entity
+        +str path
+        +Format format
+    }
     class File {
         %% An OAIS File entity representing a digital file
         +UUID identifier
         +Optional[datetime] dateCreated
         +Optional[str] name
         +str path
-        +Sequence[Fixity] fixities
+        +List[Fixity] fixities
+    }
+    class DepositMetadataFile {
+        %% An external metadata file accompanying a deposit
+        +str path
+        +Format format
     }
     class Fixity {
         %% An OAIS Fixity entity representing integrity information for a digital file
         +UUID identifier
-        +Sequence[Checksum] checksums
+        +List[Checksum] checksums
     }
     class Representation {
         %% An OAIS Representation entity representing a specific form of an Intellectual Entity
         +UUID identifier
         +str name
-        +Sequence[File] files
+        +List[File] files
     }
     class IntellectualEntity {
         %% An OAIS Intellectual Entity representing a conceptual object
         +UUID identifier
-        +Sequence[Representation] representations
+        +List[Representation] representations
+        +IEMetadataFile metadataFile
     }
-    Representation *-- File : contains
+    Deposit *-- File : contains
+    Representation *-- File : contains many
+    IntellectualEntity *-- File : contains
+    Deposit *-- SubmissionInformationPackage : contains many
     SubmissionInformationPackage *-- Producer : contains
-    Fixity *-- Checksum : contains
-    File *-- Fixity : contains
-    SubmissionInformationPackage *-- IntellectualEntity : contains
-    Deposit *-- SubmissionInformationPackage : contains
+    IntellectualEntity *-- Representation : contains many
+    Deposit *-- DepositMetadataFile : contains
+    SubmissionInformationPackage *-- IntellectualEntity : contains many
+    Fixity *-- Checksum : contains many
+    File *-- Fixity : contains many
     Deposit *-- Producer : contains
-    IntellectualEntity *-- Representation : contains
+    IntellectualEntity *-- IEMetadataFile : contains
+    Deposit *-- Deposit : contains
+    DataArchiveModelCatalog *-- Schema : contains
 ```
 <!-- END_MERMAID_DIAGRAM -->
 
