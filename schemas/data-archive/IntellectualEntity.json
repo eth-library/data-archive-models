@@ -17,8 +17,11 @@
       },
       "minItems": 1,
       "description": "Representations of this Intellectual Entity"
+    },
+    "metadataFile": {
+      "$ref": "./IEMetadataFile.json"
     }
   },
-  "required": ["identifier", "representations"],
+  "required": ["identifier", "representations", "metadataFile"],
   "additionalProperties": true
 }
