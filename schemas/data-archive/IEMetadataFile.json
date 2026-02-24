@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "IEMetadataFile.json",
+  "title": "IEMetadataFile",
+  "description": "An external metadata file accompanying an intellectual entity",
+  "type": "object",
+  "properties": {
+    "path": {
+      "type": "string",
+      "description": "Path to the metadata file"
+    },
+    "format": {
+      "type": "string",
+      "enum": ["csv", "xml"],
+      "description": "File format of the metadata file"
+    }
+  },
+  "required": ["path", "format"],
+  "additionalProperties": true
+}
