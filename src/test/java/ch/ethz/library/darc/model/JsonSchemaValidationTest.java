@@ -1,21 +1,19 @@
 package ch.ethz.library.darc.model;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.networknt.schema.JsonSchema;
-import com.networknt.schema.JsonSchemaFactory;
-import com.networknt.schema.SpecVersion;
-import com.networknt.schema.ValidationMessage;
+import com.networknt.schema.Error;
+import com.networknt.schema.InputFormat;
+import com.networknt.schema.Schema;
+import com.networknt.schema.SchemaLocation;
+import com.networknt.schema.SchemaRegistry;
+import com.networknt.schema.SpecificationVersion;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -28,8 +26,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class JsonSchemaValidationTest {
 
     private static final String SCHEMAS_DIR = "schemas/data-archive";
-    private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
-    
+
     /**
      * Validates all JSON schema files in the schemas/data-archive directory against
      * the official JSON Schema draft specification.
@@ -39,39 +36,38 @@ public class JsonSchemaValidationTest {
     public void validateAllJsonSchemas() throws IOException {
         // Get all JSON files in the schemas directory (excluding _shared directory)
         Set<Path> schemaFiles = findJsonFiles(SCHEMAS_DIR);
-        
-        // Create a JSON Schema validator for Draft 2020-12
-        JsonSchemaFactory factory = JsonSchemaFactory.getInstance(SpecVersion.VersionFlag.V202012);
-        
-        // Load the official meta-schema using URL instead of string
-        URL metaSchemaUrl = new URL("https://json-schema.org/draft/2020-12/schema");
-        InputStream metaSchemaStream = metaSchemaUrl.openStream();
-        JsonSchema metaSchema = factory.getSchema(metaSchemaStream);
-        
+
+        // Create a schema registry for Draft 2020-12
+        SchemaRegistry registry = SchemaRegistry.withDefaultDialect(SpecificationVersion.DRAFT_2020_12);
+
+        // Load the bundled meta-schema (no network fetch needed)
+        Schema metaSchema = registry.getSchema(
+                SchemaLocation.of("https://json-schema.org/draft/2020-12/schema"));
+
         // Track if any validation errors occurred
         boolean allSchemasValid = true;
         StringBuilder errorMessages = new StringBuilder();
-        
-        // Validate each schema file
+
+        // Validate each schema file using string-based validation
         for (Path schemaPath : schemaFiles) {
-            JsonNode schemaNode = OBJECT_MAPPER.readTree(schemaPath.toFile());
-            Set<ValidationMessage> validationMessages = metaSchema.validate(schemaNode);
-            
-            if (!validationMessages.isEmpty()) {
+            String schemaContent = Files.readString(schemaPath);
+            List<Error> errors = metaSchema.validate(schemaContent, InputFormat.JSON);
+
+            if (!errors.isEmpty()) {
                 allSchemasValid = false;
                 errorMessages.append("Validation errors in ").append(schemaPath).append(":\n");
-                for (ValidationMessage message : validationMessages) {
-                    errorMessages.append("  - ").append(message).append("\n");
+                for (Error error : errors) {
+                    errorMessages.append("  - ").append(error).append("\n");
                 }
             }
         }
-        
+
         // Assert that all schemas are valid
-        assertTrue(allSchemasValid, 
-                "Some JSON schemas are not valid against the official draft schema:\n" + 
+        assertTrue(allSchemasValid,
+                "Some JSON schemas are not valid against the official draft schema:\n" +
                 errorMessages);
     }
-    
+
     /**
      * Finds all JSON files in the specified directory and its subdirectories,
      * excluding files in the _shared directory.
