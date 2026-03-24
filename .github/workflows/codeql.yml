@@ -5,6 +5,7 @@ on:
     branches: [main]
   pull_request:
     branches: [main]
+    types: [opened, synchronize, reopened]
   schedule:
     - cron: "30 6 * * 1" # Weekly Monday 06:30 UTC
   workflow_dispatch:
@@ -18,8 +19,9 @@ jobs:
     runs-on: ubuntu-latest
 
     permissions:
-      security-events: write
+      actions: read
       contents: read
+      security-events: write
       packages: read
 
     strategy:
@@ -44,14 +46,15 @@ jobs:
           build-mode: ${{ matrix.build-mode }}
 
       - name: Setup Java
-        if: matrix.language == 'java-kotlin'
+        if: matrix.build-mode == 'manual'
         uses: actions/setup-java@v4
         with:
           distribution: temurin
           java-version: '21'
+          cache: maven
 
       - name: Build Java with Maven
-        if: matrix.language == 'java-kotlin'
+        if: matrix.build-mode == 'manual'
         run: mvn --settings ci/mvn_settings.xml --batch-mode compile -DskipTests
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
