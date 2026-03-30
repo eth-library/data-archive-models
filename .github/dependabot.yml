@@ -14,7 +14,7 @@ updates:
   # See issue #2512: https://github.com/astral-sh/uv/issues/2512
   - package-ecosystem: "pip"
     allow:
-      - dependency-type: "all"     # Allow both direct and indirect updates for all packages
+      - dependency-type: "direct"
     directory: "/"                 # Location of package manifests
     schedule:
       interval: "daily" # Check for updates daily
