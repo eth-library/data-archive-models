@@ -8,7 +8,7 @@ dynamic = ["version"]
 description = "ETH Library Data Archive Models - Python Pydantic classes"
 readme = "README.md"
 requires-python = ">=3.12"
-dependencies = ["pydantic>=2.13.3"]
+dependencies = ["pydantic>=2.13.4"]
 
 [project.urls]
 Repository = "https://github.com/eth-library/arca-models"
